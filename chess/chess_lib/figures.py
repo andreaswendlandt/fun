@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from typing import List
 
-# Basisklasse
+# base class
 class Figure():
     col: int
     row: int
@@ -10,13 +10,13 @@ class Figure():
         self.color = color
         allowed_colors = ["white", "black"]
         if self.color not in allowed_colors:
-            raise ValueError('Ungültige Farbe ' + self.color + ' ...erlaubte Farben white|black')
+            raise ValueError('invalid color ' + self.color + ' ...valid colors white|black')
         if len(pos) != 2: 
-            raise ValueError('Ungültige Notation, z.B. a3, e5')
+            raise ValueError('invalid notation, ...valid notation for example a3, e5')
         c = pos[0].lower()
         r = pos[1]
         if (not c in 'abcdefgh') or (not r in '12345678'):
-            raise ValueError('Ungültige Position - [a-h][1-8]')          
+            raise ValueError('invalid position - valid positions [a-h][1-8]')
         self.col = 'abcdefgh'.find(c)
         self.row = '12345678'.find(r)
         
@@ -29,7 +29,7 @@ class Figure():
           return ''
         return 'abcdefgh'[col] + '12345678'[row]
 
-# Klasse für Pferd/Springer
+# class for knight
 class Knight(Figure):
     def __init__(self, color: str, pos: str):
         super().__init__(color, pos)
@@ -48,7 +48,7 @@ class Knight(Figure):
         moves = ' '.join(positions)
         return 'possible moves: ' + moves
 
-# Klasse für Läufer
+# class for bishop
 class Bishop(Figure):
     def __init__(self, color: str, pos: str):
         super().__init__(color, pos)
@@ -61,18 +61,18 @@ class Bishop(Figure):
         for i in range(-7, 8):
             if i==0: 
                 continue
-            # Diagonale von links unten nach rechts oben
+            # diagonal from left bottom to right top
             newpos = Figure.position(self.col + i, self.row + i)
             if newpos:
                 positions += [newpos]
-            # Diagonale von rechts unten nach links oben
+            # diagonal from right bottom to left top
             newpos = Figure.position(self.col + i, self.row - i)
             if newpos:
                 positions += [newpos]
         moves = ' '.join(positions)
         return 'possible moves: ' + moves
 
-# Klasse für Turm
+# class for rook
 class Rook(Figure):
     def __init__(self, color: str, pos: str):
         super().__init__(color, pos)
@@ -85,18 +85,18 @@ class Rook(Figure):
         for i in range(-7, 8):
             if i==0: 
                 continue
-            # von links nach rechts
+            # from left to right
             newpos = Figure.position(self.col + i, self.row)
             if newpos:
                 positions += [newpos]
-            # von unten nach oben
+            # from bottom to top
             newpos = Figure.position(self.col, self.row + i)
             if newpos:
                 positions += [newpos]
         moves = ' '.join(positions)
         return 'possible moves: ' + moves
 
-# Klasse für Dame
+# class for queen
 class Queen(Figure):
     def __init__(self, color: str, pos: str):
         super().__init__(color, pos)
@@ -108,26 +108,26 @@ class Queen(Figure):
         positions = []
         for i in range(-7, 8):
             if i==0: continue
-            # von links nach rechts
+            # from left to right
             newpos = Figure.position(self.col + i, self.row)
             if newpos:
                 positions += [newpos]
-            # von unten nach oben
+            # from bottom to top
             newpos = Figure.position(self.col, self.row + i)
             if newpos:
                 positions += [newpos]
-            # Diagonale von links unten nach rechts oben
+            # diagonal from left bottom to right top
             newpos = Figure.position(self.col + i, self.row + i)
             if newpos: 
                 positions += [newpos]
-            # Diagonale von rechts unten nach links oben
+            # diagonal from right bottom to left top
             newpos = Figure.position(self.col + i, self.row - i)
             if newpos: 
                 positions += [newpos]
         moves = ' '.join(positions)
         return 'possible moves: ' + moves
 
-# Klasse für König
+# class for king
 class King(Figure):
     def __init__(self, color: str, pos: str):
         super().__init__(color, pos)
@@ -140,26 +140,26 @@ class King(Figure):
         for i in range(-1, 2):
             if i==0:
                 continue
-            # von links nach rechts
+            # from left to right
             newpos = Figure.position(self.col + i, self.row)
             if newpos:
                 positions += [newpos]
-            # von unten nach oben
+            # from bottom to top
             newpos = Figure.position(self.col, self.row + i)
             if newpos:
                 positions += [newpos]
-            # Diagonale von links unten nach rechts oben
+            # diagonal from left bottom to right top
             newpos = Figure.position(self.col + i, self.row + i)
             if newpos:
                 positions += [newpos]
-            # Diagonale von rechts unten nach links oben
+            # diagonal from right bottom to left top
             newpos = Figure.position(self.col + i, self.row - i)
             if newpos: 
                 positions += [newpos]
         moves = ' '.join(positions)
         return 'possible moves: ' + moves
 
-# Klasse für Bauer
+# class for pawn
 class Pawn(Figure):
     def __init__(self, color: str, pos: str):
         self.color = color
@@ -181,7 +181,7 @@ class Pawn(Figure):
             for i in range(step):
                 if i==0:
                     continue
-                # von unten nach oben
+                # from bottom to top
                 newpos = Figure.position(self.col, self.row + i)
                 if newpos:
                     positions += [newpos]
@@ -190,7 +190,7 @@ class Pawn(Figure):
             for i in range(step):
                 if i==0:
                     continue
-                # von oben nach unten
+                # from top to bottom
                 newpos = Figure.position(self.col, self.row -i)
                 if newpos: 
                     positions += [newpos]
